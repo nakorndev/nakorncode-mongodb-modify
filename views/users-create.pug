@@ -1,0 +1,38 @@
+extends layouts/default.pug
+
+block content
+  h1.title Create
+  form(method="POST" action="/users" enctype="multipart/form-data")
+    .field
+      .control
+        label.label First name:
+        input.input(type="text" name="firstName")
+    .field
+      .control
+        label.label Last name:
+        input.input(type="text" name="lastName")
+    .field
+      .control
+        label.label Age:
+        input.input(type="number" name="age")
+    .field
+      .control
+        label.label Salary:
+        input.input(type="number" name="salary" step="100")
+    .field
+      label.label Skills:
+      .select.is-multiple
+        select(multiple name="skills")
+          option(value="html") HTML
+          option(value="css") CSS
+          option(value="js") JavaScript
+          option(value="node") Node.js
+          option(value="db") Database
+          option(value="network") Network
+          option(value="server") Server
+    .field
+      label.label Avatar:
+      input(type="file" name="avatar" accept="image/*")
+    hr
+    .field
+      button.button.is-link Create

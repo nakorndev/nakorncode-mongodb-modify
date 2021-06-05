@@ -1,0 +1,49 @@
+db.users.find({ $or: [
+  { firstName: 'Joe' },
+  { firstName: 'John' }
+] })
+
+// db.users.updateMany(
+//   {},
+//   { $rename: { attributes: 'skills' } }
+// )
+
+// db.users.updateOne(
+//   { _id: ObjectId('60a3b271b853f910d033161a') },
+//   { $pull: { skills: 'database' } }
+// )
+
+// db.users.updateOne(
+//   { _id: ObjectId('60a3b271b853f910d033161a') },
+//   { $push: { skills: 'js' } }
+// )
+
+// db.users.updateOne(
+//   { _id: ObjectId('60a3b271b853f910d033161a') },
+//   {
+//     $addToSet: {
+//       skills: {
+//         $each: ['js', 'node', 'network']
+//       }
+//     }
+//   }
+// )
+
+// db.users.updateOne(
+//   { _id: ObjectId('60a3b271b853f910d033161a') },
+//   { $unset: { age: '', salary: '' } }
+// )
+
+// db.users.updateOne(
+//   { _id: ObjectId('60a3b271b853f910d033161a') },
+//   { $set: {age: 22} }
+// )
+
+// db.users.aggregate([
+//   {
+//     $match: { _id: ObjectId('60a3b271b853f910d033161a') }
+//   },
+//   {
+//     $set: { age: 21 }
+//   }
+// ])

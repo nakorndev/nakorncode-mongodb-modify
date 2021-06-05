@@ -1,0 +1,101 @@
+extends layouts/default.pug
+
+block content
+  h1.title Hello users
+  .content
+    .box
+      h2.subtitle Search
+      form
+        .field
+          .control
+            label.label Search by first name:
+            input.input(type="search" name="first_name" value=query.first_name)
+        .field
+          .control
+            label.label Per page:
+            input.input(type="number" name="per_page" value=query.per_page || 30)
+        .columns.is-mobile
+          .column
+            .control
+              label.label Age at:
+              input.input(type="number" name="age" value=query.age)
+          .column
+            .control
+              label.label Age greater than:
+              input.input(type="number" name="age_gt" value=query.age_gt)
+          .column
+            .control
+              label.label Age less than:
+              input.input(type="number" name="age_lt" value=query.age_lt)
+        .field
+          label.label Skills:
+          .select.is-multiple
+            select(multiple name="skills")
+              option(value="html" selected=query.skills.includes('html')) HTML
+              option(value="css" selected=query.skills.includes('css')) CSS
+              option(value="js" selected=query.skills.includes('js')) JavaScript
+              option(value="node" selected=query.skills.includes('node')) Node.js
+              option(value="db" selected=query.skills.includes('db')) Database
+              option(value="network" selected=query.skills.includes('network')) Network
+              option(value="server" selected=query.skills.includes('server')) Server
+        .field
+          .control
+            label.radio
+              input.mr-1(type="radio" name="terminated" value="yes" checked=query.terminated == 'yes')
+              | Terminated
+            label.radio
+              input.mr-1(type="radio" name="terminated" value="no" checked=query.terminated == 'no')
+              | Not terminated
+            label.radio
+              input.mr-1(type="radio" name="terminated" value="off" checked=query.terminated == 'off' || !query.terminated)
+              | All
+        .field
+          button.button Query
+    h2.subtitle Result (Page: #{query.page || 1})
+    a.button.is-success.mb-4(href="/users/create") Create user
+    table
+      thead 
+        tr 
+          //- th ID
+          th Avatar
+          th Name
+          th Age
+          th Salary
+          th Skills
+          th Terminated
+      tbody
+        each user in users
+          tr
+            //- td #{user._id}
+            td
+              if user.avatarUrl
+                img.minisize(src=user.avatarUrl alt=user._id)
+            td
+              a(href=`/users/${user._id}`) #{user.firstName} #{user.lastName}
+            td #{user.age}
+            td #{user.salary}
+            td #{user.skills}
+            td #{user.terminationDate}
+    .level.is-mobile
+      .level-left
+        a.button#previous-page Previous
+      .label-right
+        a.button#next-page Next
+  script.
+    const nextPageEl = document.getElementById('next-page')
+    const nextUrl = new URL(location.href)
+    const nextPageNum = nextUrl.searchParams.has('page')
+      ? Number(nextUrl.searchParams.get('page')) + 1
+      : 2
+    nextUrl.searchParams.set('page', nextPageNum)
+    nextPageEl.href = nextUrl.toString()
+
+    const prePageEl = document.getElementById('previous-page')
+    const preUrl = new URL(location.href)
+    const prePageQuery = preUrl.searchParams.get('page')
+    if (!preUrl.searchParams.has('page') || prePageQuery == 1) {
+      prePageEl.setAttribute('disabled', true)
+    } else {
+      preUrl.searchParams.set('page', Number(prePageQuery) - 1)
+      prePageEl.href = preUrl.toString()
+    }

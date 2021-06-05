@@ -1,0 +1,97 @@
+// db.users
+//   .find({
+//     age: { $lte: 25 }
+//   }, { _id: 0, firstName: 1, lastName: 1, age: 1, salary: 1 })
+//   .limit(10)
+//   .sort({ salary: -1 }) // 1:asc, -1:desc
+
+
+// db.users.aggregate([
+//   { // step 1: match
+//     $match: { 
+//       age: { $lte: 25 }
+//     }
+//   },
+//   { // step 2: project
+//     $project: {
+//       _id: 0, firstName: 1, lastName: 1, age: 1, salary: 1
+//     }
+//   },
+//   { // step 3: sort
+//     $sort: {
+//       salary: -1
+//     }
+//   },
+//   { // step 4: limit
+//     $limit: 10
+//   }
+// ])
+
+
+// db.users.aggregate([
+//   {
+//     $match: {
+//       $or: [
+//         { age: { $gte: 30 } },
+//         { skills: { $all: [ 'network', 'server' ] } }
+//       ]
+//     }
+//   },
+//   {
+//     $sort: {
+//       age: 1
+//     }
+//   }
+// ])
+
+
+// db.users.aggregate([
+//   {
+//     $match: {
+//       age: { $lte: 22 }
+//     }
+//   },
+//   {
+//     $group: {
+//       _id: '$age',
+//       count: { $sum: 1 },
+//       salarySum: { $sum: '$salary' },
+//       salaryMin: { $min: '$salary' },
+//       salaryMax: { $max: '$salary' },
+//       salaryAvg: { $avg: '$salary' }
+//     }
+//   },
+//   {
+//     $sort: {
+//       // _id: 1
+//       salaryAvg: 1
+//     }
+//   }
+// ])
+
+
+// db.users.find({ age: 18 }, { salary: 1 })
+
+
+// db.users.aggregate([
+//   {
+//     $addFields: {
+//       fullName: {
+//         $function: {
+//           body: function(first, last) {
+//             return `${first} ${last}`.toUpperCase()
+//           },
+//           args: [ '$firstName', '$lastName' ],
+//           lang: 'js'
+//         }
+//       }
+//     }
+//   }
+// ])
+
+
+db.users.find({
+  $where: function() {
+    return obj.skills.length == 5
+  }
+})

@@ -1,0 +1,42 @@
+extends layouts/default.pug
+
+block content
+  h1.title Edit #{user.name} (ID: #{user._id})
+  form(method="POST" action=`/users/${user._id}?_method=PUT` enctype="multipart/form-data")
+    .field
+      .control
+        label.label ID:
+        input.input(type="text" name="id" value=user._id disabled)
+    .field
+      .control
+        label.label First name:
+        input.input(type="text" name="firstName" value=user.firstName)
+    .field
+      .control
+        label.label Last name:
+        input.input(type="text" name="lastName" value=user.lastName)
+    .field
+      .control
+        label.label Age:
+        input.input(type="number" name="age" value=user.age)
+    .field
+      .control
+        label.label Salary:
+        input.input(type="number" name="salary" value=user.salary step="100")
+    .field
+      label.label Skills:
+      .select.is-multiple
+        select(multiple name="skills")
+          option(value="html" selected=user.skills.includes('html')) HTML
+          option(value="css" selected=user.skills.includes('css')) CSS
+          option(value="js" selected=user.skills.includes('js')) JavaScript
+          option(value="node" selected=user.skills.includes('node')) Node.js
+          option(value="db" selected=user.skills.includes('db')) Database
+          option(value="network" selected=user.skills.includes('network')) Network
+          option(value="server" selected=user.skills.includes('server')) Server
+    .field
+      label.label Avatar:
+      input(type="file" name="avatar" accept="image/*")
+    hr
+    .field
+      button.button.is-link Update
